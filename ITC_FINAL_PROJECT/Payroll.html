@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simple Payroll | Edrian C. Dominguito</title>
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:"Poppins",sans-serif;
+    background:linear-gradient(135deg,#b2dfdb,#e0f2f1,#a7ffeb);
+    color:#222;
+    text-align:center;
+    padding-top:120px;
+  }
+
+  /* NAVBAR */
+  header{
+    background:#263238;
+    color:white;
+    width:100%;
+    padding:20px 0;
+    position:fixed;
+    top:0;
+    z-index:1000;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  }
+  nav{
+    display:flex;justify-content:center;align-items:center;flex-wrap:wrap;
+  }
+  nav a{
+    text-decoration:none;color:white;font-weight:600;
+    margin:0 20px;font-size:1.1em;
+    transition:color .3s,transform .2s;
+  }
+  nav a:hover{color:#80cbc4;transform:scale(1.1);}
+
+  /* SECTION */
+  section{
+    background:white;
+    max-width:950px;width:85%;
+    margin:40px auto;
+    padding:45px;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.15);
+    animation:fadeIn .8s ease;
+  }
+
+  @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:none;}}
+
+  h2{
+    color:#00796b;
+    font-size:1.9em;
+    margin-bottom:15px;
+  }
+
+  p.desc{
+    color:#555;
+    margin-bottom:25px;
+  }
+
+  input{
+    width:250px;padding:10px;
+    margin:8px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:1em;
+  }
+
+  button{
+    padding:12px 25px;
+    margin:10px 5px;
+    border:none;
+    border-radius:10px;
+    background:#009688;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .3s,transform .2s;
+  }
+  button:hover{background:#00796b;transform:scale(1.05);}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:25px;
+    font-size:1em;
+  }
+
+  th, td{
+    border:1px solid #ccc;
+    padding:10px;
+  }
+
+  th{
+    background:#00796b;
+    color:white;
+  }
+
+  tr:nth-child(even){background:#f1f1f1;}
+
+  footer{
+    background:#263238;color:white;text-align:center;
+    padding:20px 0;margin-top:40px;font-size:.9em;
+  }
+
+  /* back to home button */
+  .back-btn{
+    display:inline-block;
+    margin:10px 0 18px 0;
+    padding:10px 18px;
+    background:#2e7d32;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:600;
+    box-shadow:0 6px 12px rgba(46,125,50,0.18);
+  }
+  .back-btn:hover{background:#276a2c;transform:translateY(-2px);}
+
+  @media(max-width:768px){
+    input{width:80%;}
+    nav a{margin:8px 10px;font-size:1em;}
+    table{font-size:0.9em;}
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="conversion.html">Conversion</a>
+    <a href="incomeTaxCalculator.html">Tax Calculator</a>
+    <a href="factorial.html">Factorial</a>
+    <a href="payroll.html">Payroll</a>
+  </nav>
+</header>
+
+<section>
+  <h2>Simple Payroll System</h2>
+  <a href="index.html" class="back-btn" aria-label="Back to Home">Back to Home</a>
+  <p class="desc">
+    Input employee details below. The program computes Gross Pay and Net Pay, displays the record in a table, and allows deletion by line number.
+  </p>
+
+  <div>
+    <input type="text" id="empName" placeholder="Employee Name" />
+    <input type="number" id="daysWorked" placeholder="Days Worked" />
+    <input type="number" id="dailyRate" placeholder="Daily Rate (₱)" />
+    <input type="number" id="deduction" placeholder="Deduction Amount (₱)" /><br>
+
+    <button onclick="addEmployee()">Add Employee</button>
+    <button style="background:#f57c00" onclick="deleteEmployee()">Delete by Line No.</button>
+    <button style="background:#e53935" onclick="clearAll()">Clear All</button>
+  </div>
+
+  <table id="payrollTable">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Employee Name</th>
+        <th>Days Worked</th>
+        <th>Daily Rate (₱)</th>
+        <th>Gross Pay (₱)</th>
+        <th>Deduction (₱)</th>
+        <th>Net Pay (₱)</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<footer>
+  © 2025 Simple Payroll | Edrian C. Dominguito | BSIT 3A
+</footer>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.querySelector('header nav');
+    if (nav) {
+      const seen = new Set();
+      Array.from(nav.querySelectorAll('a')).forEach(a => {
+        const key = (a.getAttribute('href') || a.textContent || '').trim().toLowerCase();
+        if (seen.has(key)) {
+          a.remove();
+        } else {
+          seen.add(key);
+        }
+      });
+    }
+  });
+
+  let employees = [];
+
+  function addEmployee(){
+    const name = document.getElementById("empName").value.trim();
+    const days = parseFloat(document.getElementById("daysWorked").value);
+    const rate = parseFloat(document.getElementById("dailyRate").value);
+    const deduction = parseFloat(document.getElementById("deduction").value);
+
+    if(name==="" || isNaN(days) || isNaN(rate) || isNaN(deduction) || days<=0 || rate<=0 || deduction<0){
+      alert("⚠️ Please enter valid inputs for all fields.");
+      return;
+    }
+
+    const gross = days * rate;
+    const net = gross - deduction;
+
+    employees.push({
+      name,
+      days,
+      rate,
+      gross,
+      deduction,
+      net
+    });
+
+    updateTable();
+
+    document.getElementById("empName").value="";
+    document.getElementById("daysWorked").value="";
+    document.getElementById("dailyRate").value="";
+    document.getElementById("deduction").value="";
+  }
+
+  function updateTable(){
+    const tbody = document.querySelector("#payrollTable tbody");
+    tbody.innerHTML = "";
+
+    employees.forEach((emp, index)=>{
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${emp.name}</td>
+        <td>${emp.days}</td>
+        <td>₱${emp.rate.toFixed(2)}</td>
+        <td>₱${emp.gross.toFixed(2)}</td>
+        <td>₱${emp.deduction.toFixed(2)}</td>
+        <td>₱${emp.net.toFixed(2)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function deleteEmployee(){
+    const line = parseInt(prompt("Enter Line Number (No.) to delete:"));
+    if(isNaN(line) || line<1 || line>employees.length){
+      alert("⚠️ Invalid line number.");
+      return;
+    }
+
+    if(confirm(`Are you sure you want to delete line No. ${line}?`)){
+      employees.splice(line-1,1);
+      updateTable();
+    }
+  }
+
+  function clearAll(){
+    if(confirm("Are you sure you want to clear all records?")){
+      employees = [];
+      updateTable();
+    }
+  }
+</script>
+</body>
+</html>

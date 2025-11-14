@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage | Edrian C. Dominguito</title>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Open Sans", sans-serif;
+            background: linear-gradient(135deg, #c8e6c9, #e3f2fd, #fffde7);
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            overflow-x: hidden;
+        }
+
+       
+        header {
+            background-color: #1565c0;
+            color: white;
+            width: 100%;
+            padding: 25px 0;
+            font-family: "Montserrat", sans-serif;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            animation: slideDown 0.7s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header h1 {
+            font-size: 2.7em;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        header h2 {
+            font-weight: 500;
+            font-size: 1.3em;
+            color: #e3f2fd;
+        }
+
+        i {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #bbdefb;
+        }
+
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body {
+            background: linear-gradient(-45deg, #b3e5fc, #c8e6c9, #fff9c4, #f8bbd0);
+            background-size: 400% 400%;
+            animation: gradientShift 18s ease infinite;
+        }
+
+     
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease;
+        }
+
+        .links-container a {
+            text-decoration: none;
+            background-color: #2e7d32;
+            color: white;
+            padding: 15px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .links-container a:hover {
+            background-color: #1b5e20;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            animation: floatUp 20s infinite ease-in-out;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-120vh) scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        .adoforref {
+            width: 480px;
+            max-width: 90%;
+            border-radius: 15px;
+            margin: 60px auto 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            transition: transform 0.4s ease;
+        }
+
+        .adoforref:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            background-color: #1565c0;
+            color: white;
+            font-size: 0.9em;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            header h2 {
+                font-size: 1em;
+            }
+
+            .links-container a {
+                padding: 12px 20px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>My Website</h1>
+        <h2>CS 1130 – Introduction to Computing</h2>
+        <i>by Edrian C. Dominguito</i>
+    </header>
+
+    <div class="shape" style="width:80px;height:80px;left:10%;animation-duration:22s;"></div>
+    <div class="shape" style="width:100px;height:100px;left:40%;animation-duration:25s;animation-delay:5s;"></div>
+    <div class="shape" style="width:60px;height:60px;left:65%;animation-duration:20s;animation-delay:3s;"></div>
+    <div class="shape" style="width:120px;height:120px;left:85%;animation-duration:30s;animation-delay:7s;"></div>
+
+    <div class="links-container">
+        <a href="Conversion.html">Conversion</a>
+        <a href="IncomeTaxCalculator.html">Income Tax Calculator</a>
+        <a href="Factorial.html">Factorial & Natural Numbers</a>
+        <a href="Payroll.html">Payroll</a>
+    </div>
+
+    <img src="ado2.png" alt="Illustration" class="adoforref">
+
+    <footer>
+        © 2025 Edrian C. Dominguito | BSIT 1A | All Rights Reserved
+    </footer>
+</body>
+
+</html>

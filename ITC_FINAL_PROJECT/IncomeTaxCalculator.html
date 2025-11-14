@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Income Tax Calculator | Edrian C. Dominguito</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Asap+Condensed:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:"Manrope",sans-serif;
+  background:linear-gradient(-45deg,#bbdefb,#c8e6c9,#fff9c4,#f8bbd0);
+  background-size:400% 400%;
+  animation:gradientShift 20s ease infinite;
+  color:#222;
+  text-align:center;
+  padding-top:120px;
+}
+@keyframes gradientShift{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+
+header{
+  background:#283593;
+  color:white;
+  width:100%;
+  padding:25px 0;
+  position:fixed;
+  top:0;
+  z-index:1000;
+  box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  font-family:"Asap Condensed",sans-serif;
+}
+nav{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;}
+nav a{
+  text-decoration:none;color:white;font-weight:600;
+  margin:0 20px;font-size:1.05em;
+  transition:color .3s,transform .2s;
+}
+nav a:hover{color:#ffeb3b;transform:scale(1.1);}
+
+
+section{
+  background:white;
+  max-width:850px;width:85%;
+  margin:40px auto;
+  padding:45px;
+  border-radius:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.15);
+  animation:fadeIn 1s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+
+h2{color:#1a237e;font-size:2em;margin-bottom:10px;}
+p.desc{color:#555;margin-bottom:25px;}
+
+input{
+  width:260px;padding:12px;margin:10px;
+  border:1px solid #ccc;border-radius:10px;
+  font-size:1em;text-align:center;
+}
+button{
+  padding:12px 25px;margin:8px;
+  border:none;border-radius:10px;
+  background:#3f51b5;color:white;font-weight:600;
+  cursor:pointer;
+  transition:background .3s,transform .2s;
+}
+button:hover{background:#1a237e;transform:scale(1.05);}
+p.result{margin-top:20px;font-weight:600;font-size:1.1em;color:#333;white-space:pre-line;}
+
+footer{
+  background:#283593;color:white;text-align:center;
+  padding:20px 0;margin-top:40px;font-size:.9em;
+}
+@media(max-width:768px){
+  input{width:80%;}
+  nav a{margin:8px 10px;font-size:1em;}
+}
+
+/* back to home button */
+.back-btn{
+  display:inline-block;
+  margin:10px 0 18px;
+  padding:10px 18px;
+  background:#2e7d32;
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:600;
+  box-shadow:0 6px 12px rgba(46,125,50,0.18);
+}
+.back-btn:hover{background:#276a2c;transform:translateY(-2px);}
+</style>
+</head>
+
+<body>
+<header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a class="btn" href="Conversion.html">Conversion</a>
+    <a class="btn" href="IncomeTaxCalculator.html">Income Tax Calculator</a>
+    <a class="btn" href="Factorial.html">Factorial & Natural Numbers</a>
+    <a class="btn" href="Payroll.html">Payroll</a>
+  </nav>
+</header>
+
+<section>
+  <h2>Income Tax Calculator</h2>
+  <a href="index.html" class="back-btn" aria-label="Back to Home">Back to Home</a>
+  <p class="desc">
+    Enter your monthly income below to calculate the tax based on progressive rates and view your net income after tax.
+  </p>
+
+  <input type="number" id="income" placeholder="Enter Monthly Income (₱)">
+  <br>
+  <button onclick="computeTax()">Compute Tax</button>
+  <button onclick="clearResult()">Clear</button>
+
+  <p id="result" class="result"></p>
+</section>
+
+<footer>
+  © 2025 Income Tax Calculator | Edrian C. Dominguito | BSIT 1A | All Rights Reserved
+</footer>
+
+<script>
+function computeTax(){
+  const income = parseFloat(document.getElementById("income").value);
+  const out = document.getElementById("result");
+
+  if(isNaN(income) || income <= 0){
+    out.textContent = "⚠️ Please enter a valid monthly income.";
+    return;
+  }
+
+  let tax = 0;
+
+ 
+  if(income <= 20833){
+    tax = 0;
+  }else if(income <= 33333){
+    tax = (income - 20833)*0.15;
+  }else if(income <= 66667){
+    tax = 1875 + (income - 33333)*0.20;
+  }else if(income <= 166667){
+    tax = 8541.80 + (income - 66667)*0.25;
+  }else if(income <= 666667){
+    tax = 33541.80 + (income - 166667)*0.30;
+  }else{
+    tax = 183541.80 + (income - 666667)*0.35;
+  }
+
+  const net = income - tax;
+
+  out.textContent =
+    `Gross Monthly Income: ₱${income.toFixed(2)}\n` +
+    `Estimated Tax: ₱${tax.toFixed(2)}\n` +
+    `Net Income After Tax: ₱${net.toFixed(2)}`;
+}
+
+function clearResult(){
+  document.getElementById("income").value = "";
+  document.getElementById("result").textContent = "";
+}
+</script>
+</body>
+</html>
